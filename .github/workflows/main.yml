@@ -21,10 +21,12 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Install Project & Capacitor Dependencies
+        run: |
+          npm install
+          npm install @capacitor/core @capacitor/cli @capacitor/android
 
-      - name: Build Web Application
+      - name: Build Web Assets
         run: npm run build
 
       - name: Setup Java JDK 17
@@ -36,13 +38,15 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Sync Android Project
-        run: npx cap sync android
+      - name: Configure and Sync Android Platform
+        run: |
+          npx @capacitor/cli init "Dynamic Island Android 16" "com.android.dynamicisland" --web-dir dist || true
+          npx @capacitor/cli add android || true
+          npx @capacitor/cli sync android
 
       - name: Grant Execute Permissions to Gradle
         run: |
           chmod +x android/gradlew || true
-          if [ -f gradlew ]; then chmod +x gradlew; fi
 
       - name: Build Android Debug APK
         working-directory: android

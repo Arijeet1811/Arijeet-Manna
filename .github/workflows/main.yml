@@ -54,7 +54,7 @@ jobs:
           npx @capacitor/cli add android || true
           npx @capacitor/cli sync android
 
-      - name: Configure Gradle Settings
+      - name: Configure Gradle Settings & Fix Duplicates
         run: |
           sed -i 's/compileSdkVersion = [0-9]*/compileSdkVersion = 35/g' android/variables.gradle || true
           sed -i 's/targetSdkVersion = [0-9]*/targetSdkVersion = 35/g' android/variables.gradle || true

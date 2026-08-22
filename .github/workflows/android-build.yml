@@ -21,12 +21,12 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install Dependencies
+      - name: Install Project & Capacitor Dependencies
         run: |
           npm install --legacy-peer-deps || npm install
           npm install @capacitor/core @capacitor/cli @capacitor/android --save
 
-      - name: Build Web Application
+      - name: Build Web Assets
         run: npm run build
 
       - name: Setup Java JDK 17
@@ -43,6 +43,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.5
 
       - name: Configure Capacitor Android Platform
         run: |
@@ -57,15 +59,11 @@ jobs:
             sed -i 's/targetSdkVersion = 36/targetSdkVersion = 34/g' android/variables.gradle || true
           fi
 
-      - name: Grant Execute Permission to Gradle Wrapper
-        run: |
-          chmod +x android/gradlew || true
-
-      - name: Build Android Debug APK
+      - name: Build Android Debug APK (Using System Gradle)
         working-directory: android
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        run: gradle assembleDebug --no-daemon --stacktrace
 
-      - name: Upload APK to GitHub Artifacts
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: DynamicIsland-Android-APK

@@ -2,5 +2,7 @@
   "name": "Dynamic Island Android 16",
   "description": "Production-grade Android 16 (API 36) Dynamic Island architecture, high-performance Jetpack Compose spring physics engine, WindowManager overlay system, and interactive live simulator.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
